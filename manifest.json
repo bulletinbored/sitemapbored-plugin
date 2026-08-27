@@ -1,0 +1,20 @@
+{
+    "name": "sitemapbored",
+    "version": "1.0.0",
+    "author": "mlzog",
+        "description": "Generates an XML sitemap for bulletinbored.",
+    "bootstrap": "sitemapbored.php",
+    "license": "BSD Zero Clause License",
+    "files": [
+        "sitemapbored.php",
+        "sitemap.php",
+        "admin.php",
+        "lib/sitemapbored_core.php",
+        "manifest.json",
+        "README.md",
+        "LICENSE",
+        "assets/css/sitemapbored.css",
+        "lang/en.json",
+        "lang/it.json"
+    ]
+}

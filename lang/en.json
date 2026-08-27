@@ -1,0 +1,11 @@
+{
+    "include_home": "Include homepage",
+    "include_categories": "Include categories",
+    "include_threads": "Include threads",
+    "save_settings": "Save settings",
+    "submit_to_google": "Submit to Google",
+    "sitemap_url": "Sitemap URL",
+    "gsc_url": "Google Search Console sitemap URL",
+    "settings_saved": "Settings saved",
+    "submitted": "Submission request sent to Google"
+}
