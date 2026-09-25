@@ -1,6 +1,6 @@
 {
     "name": "sitemapbored",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "mlzog",
         "description": "Generates an XML sitemap for bulletinbored.",
     "bootstrap": "sitemapbored.php",
