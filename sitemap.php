@@ -11,8 +11,16 @@ require_once __DIR__ . '/../../src/helpers.php';
 require_once __DIR__ . '/../../src/setup.php';
 require_once __DIR__ . '/lib/sitemapbored_core.php';
 
-// Keep the on-disk sitemap.xml in sync when this endpoint is hit.
-sitemapbored_generate_file();
+// Regenerate the on-disk sitemap.xml at most once per hour. Generating on every
+// anonymous request would let anyone force unbounded disk writes.
+$path = sitemapbored_file_path();
+if (!is_file($path) || (time() - (int)@filemtime($path)) > 3600) {
+    sitemapbored_generate_file();
+}
 
 header('Content-Type: application/xml; charset=utf-8');
-echo sitemapbored_render();
+if (is_file($path) && is_readable($path)) {
+    readfile($path);
+} else {
+    echo sitemapbored_render();
+}

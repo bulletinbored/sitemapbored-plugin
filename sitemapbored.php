@@ -2,7 +2,6 @@
 /**
  * Plugin Name: sitemapbored
  * Author: mlzog
- * Version: 1.0.0
  * Description: Generates an XML sitemap for the forum.
  * License: BSD Zero Clause License
  */

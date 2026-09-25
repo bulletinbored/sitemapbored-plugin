@@ -7,10 +7,27 @@
  */
 
 function sitemapbored_site_base(): string {
-    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
-        ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    global $config;
+
+    // Prefer the explicitly configured base URL: it is not attacker-controlled
+    // and cannot be poisoned via the Host header.
+    $configured = trim((string)($config['base_url'] ?? ''));
+    if ($configured !== '') {
+        return rtrim($configured, '/');
+    }
+
+    // Fall back to the request host, but only trust forwarded headers when the
+    // proxy detection in the bootstrap already validated them.
+    $app = class_exists('App') ? App::getInstance() : null;
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || ($app && $app->forwardedProto === 'https')
+        || ($app && $app->forwardedSsl === 'on');
+    $scheme = $isHttps ? 'https' : 'http';
+
+    $host = (string)($_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? 'localhost'));
+    if (!preg_match('/^[A-Za-z0-9.\-]+(?::\d+)?$/', $host)) {
+        $host = 'localhost';
+    }
 
     $root = dirname(__DIR__, 3); // forum root: plugins/<plugin>/lib -> up 3
     $docRoot = rtrim($_SERVER['DOCUMENT_ROOT'] ?? '', '/\\');
